@@ -18,21 +18,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import keyMirror from 'keymirror';
+import {WebMercatorViewport} from '@deck.gl/core';
+import Console from 'global/console';
 
-export const LAYER_TYPES = keyMirror({
-  point: null,
-  arc: null,
-  line: null,
-  grid: null,
-  hexagon: null,
-  geojson: null,
-  cluster: null,
-  icon: null,
-  heatmap: null,
-  hexagonId: null,
-  '3D': null,
-  trip: null,
-  s2: null,
-  p3: null
-});
+export function hexagonToPolygonGeo(object, properties, radius, mapState) {
+  const viewport = new WebMercatorViewport(mapState);
+  if (!Array.isArray(object.position)) {
+    return null;
+  }
+
+  const screenCenter = viewport.projectFlat(object.position);
+  const {unitsPerMeter} = viewport.getDistanceScales(object.position);
+
+  if (!Array.isArray(unitsPerMeter)) {
+    Console.warn(`unitsPerMeter is undefined`);
+    return null;
+  }
+
+  const pixRadius = radius * unitsPerMeter[0];
+
+  const coordinates = [];
+
+  for (let i = 0; i < 6; i++) {
+    const vertex = hex_corner(screenCenter, pixRadius, i);
+    coordinates.push(viewport.unprojectFlat(vertex));
+  }
+
+  coordinates.push(coordinates[0]);
+
+  return {
+    geometry: {
+      coordinates,
+      type: 'LineString'
+    },
+    properties
+  };
+}
+
+function hex_corner(center, radius, i) {
+  const angle_deg = 60 * i + 30;
+  const angle_rad = (Math.PI / 180) * angle_deg;
+
+  return [center[0] + radius * Math.cos(angle_rad), center[1] + radius * Math.sin(angle_rad)];
+}
