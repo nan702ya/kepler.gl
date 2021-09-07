@@ -22,7 +22,7 @@ import {GeoJsonLayer} from '@deck.gl/layers';
 import AggregationLayer from '../aggregation-layer';
 import EnhancedHexagonLayer from 'deckgl-layers/hexagon-layer/enhanced-hexagon-layer';
 import {hexagonToPolygonGeo} from './p3-utils';
-import HexagonLayerIcon from './p3-layer-icon';
+import P3LayerIcon from './p3-layer-icon';
 import {clamp} from 'utils/data-utils';
 
 export const hexagonVisConfigs = {
