@@ -228,7 +228,8 @@ class KeplerTable {
       );
     }
 
-    this.filteredIndex = filterResult.filteredIndex || this.filteredIndex;
+    // this.filteredIndex = filterResult.filteredIndex || this.filteredIndex;
+    this.filteredIndex = filterResult.filteredIndex || filterResult.filteredIndexForDomain || this.filteredIndex;
     this.filteredIndexForDomain =
       filterResult.filteredIndexForDomain || this.filteredIndexForDomain;
 

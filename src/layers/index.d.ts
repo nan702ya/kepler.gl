@@ -88,6 +88,7 @@ export class Layer {
 }
 
 export type LayerClassesType = {
+  sk: Layer;
   point: Layer;
   arc: Layer;
   line: Layer;
@@ -101,7 +102,6 @@ export type LayerClassesType = {
   '3D': Layer;
   trip: Layer;
   s2: Layer;
-  p3: Layer;
 };
 export const LayerClasses: LayerClassesType;
 

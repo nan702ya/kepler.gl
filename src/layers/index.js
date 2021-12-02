@@ -31,7 +31,7 @@ import {default as H3Layer} from './h3-hexagon-layer/h3-hexagon-layer';
 import {default as ScenegraphLayer} from './scenegraph-layer/scenegraph-layer';
 import {default as TripLayer} from './trip-layer/trip-layer';
 import {default as S2GeometryLayer} from './s2-geometry-layer/s2-geometry-layer';
-import {default as P3Layer} from './p3-layer/p3-layer';
+import {default as SkLayer} from './sk-layer/sk-layer';
 import {LAYER_TYPES} from './types';
 
 // base layer
@@ -39,6 +39,7 @@ export {default as Layer, OVERLAY_TYPE, colorMaker} from './base-layer';
 
 // individual layers
 export const KeplerGlLayers = {
+  SkLayer,
   PointLayer,
   ArcLayer,
   LineLayer,
@@ -51,11 +52,11 @@ export const KeplerGlLayers = {
   H3Layer,
   ScenegraphLayer,
   TripLayer,
-  S2GeometryLayer,
-  P3Layer
+  S2GeometryLayer
 };
 
 export const LayerClasses = {
+  [LAYER_TYPES.sk]: SkLayer,
   [LAYER_TYPES.point]: PointLayer,
   [LAYER_TYPES.arc]: ArcLayer,
   [LAYER_TYPES.line]: LineLayer,
@@ -68,8 +69,7 @@ export const LayerClasses = {
   [LAYER_TYPES.hexagonId]: H3Layer,
   [LAYER_TYPES['3D']]: ScenegraphLayer,
   [LAYER_TYPES.trip]: TripLayer,
-  [LAYER_TYPES.s2]: S2GeometryLayer,
-  [LAYER_TYPES.p3]: P3Layer
+  [LAYER_TYPES.s2]: S2GeometryLayer
 };
 
 export {LAYER_VIS_CONFIGS} from './layer-factory';

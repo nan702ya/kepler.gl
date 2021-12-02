@@ -184,7 +184,7 @@ export default class AggregationLayer extends Layer {
   getAggregationOptions(channel) {
     const visualChannel = this.visualChannels[channel];
     const {field, channelScaleType} = visualChannel;
-
+    
     return Object.keys(
       this.config[field]
         ? FIELD_OPTS[this.config[field].type].scale[channelScaleType]
@@ -224,7 +224,7 @@ export default class AggregationLayer extends Layer {
 
   calculateDataAttribute({dataContainer, filteredIndex}, getPosition) {
     const data = [];
-
+    
     for (let i = 0; i < filteredIndex.length; i++) {
       const index = filteredIndex[i];
       const pos = getPosition({index});
@@ -260,7 +260,7 @@ export default class AggregationLayer extends Layer {
     const filterData = hasFilter
       ? getFilterDataFunc(gpuFilter.filterRange, getFilterValue)
       : undefined;
-
+  
     const {data} = this.updateData(datasets, oldLayerData);
 
     return {

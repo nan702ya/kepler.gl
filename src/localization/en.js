@@ -118,7 +118,8 @@ export default {
       hexagonid: 'H3',
       trip: 'trip',
       s2: 'S2',
-      '3d': '3D'
+      '3d': '3D',
+      sk: 'SK'
     }
   },
   layerVisConfigs: {
@@ -431,7 +432,10 @@ export default {
     hexagon: {
       worldUnitSize: 'Hexagon Radius (km)'
     },
-    hex_id: 'hex id'
+    hex_id: 'hex id',
+    sk: {
+      code: 'Code'
+    }
   },
   color: {
     customPalette: 'Custom Palette',

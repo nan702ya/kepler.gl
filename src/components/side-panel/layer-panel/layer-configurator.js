@@ -630,6 +630,113 @@ export default function LayerConfiguratorFactory(
       );
     }
 
+    _renderSkLayerConfig({
+      layer,
+      visConfiguratorProps,
+      layerConfiguratorProps,
+      layerChannelConfigProps
+    }) {
+      const colorByDescription = 'layer.colorByDescription';
+      const { config: {visConfig} } = layer;
+
+      return (
+        <StyledLayerVisualConfigurator>
+          {/* Fill Color */}
+          <LayerConfigGroup
+            {...layer.visConfigSettings.filled}
+            {...visConfiguratorProps}
+            label={'layer.fillColor'}
+            collapsible
+          >
+            {layer.config.colorField ? (
+              <LayerColorRangeSelector {...visConfiguratorProps} />
+            ) : (
+              <LayerColorSelector {...layerConfiguratorProps} />
+            )}
+            <ConfigGroupCollapsibleContent>
+              {/* <AggrScaleSelector {...layerConfiguratorProps} channel={layer.visualChannels.color} /> */}
+              <ChannelByValueSelector
+                channel={layer.visualChannels.color}
+                {...layerChannelConfigProps}
+              />
+              {layer.visConfigSettings.colorAggregation.condition(layer.config) ? (
+                <AggregationTypeSelector
+                  {...layer.visConfigSettings.colorAggregation}
+                  {...layerChannelConfigProps}
+                  description={colorByDescription}
+                  channel={layer.visualChannels.color}
+                />
+              ) : null}
+              <VisConfigSlider {...layer.visConfigSettings.opacity} {...visConfiguratorProps} />
+            </ConfigGroupCollapsibleContent>
+          </LayerConfigGroup>
+
+          {/* stroke color */}
+          <LayerConfigGroup
+            {...layer.visConfigSettings.stroked}
+            {...visConfiguratorProps}
+            label="layer.strokeColor"
+          >
+            <LayerColorSelector
+                {...visConfiguratorProps}
+                selectedColor={layer.config.visConfig.strokeColor}
+                property="strokeColor"
+              />
+            <VisConfigSlider
+              {...layer.visConfigSettings.strokeOpacity}
+              {...visConfiguratorProps}
+            />
+          </LayerConfigGroup>
+
+          {/* Stroke Width */}
+          <LayerConfigGroup
+            {...visConfiguratorProps}
+            {...layer.visConfigSettings.stroked}
+            label="layer.strokeWidth"
+          >
+            <VisConfigSlider
+                {...layer.visConfigSettings.thickness}
+                {...visConfiguratorProps}
+                label={false}
+              />
+          </LayerConfigGroup>
+
+          {/* Elevation */}
+          {visConfig.enable3d ? (
+            <LayerConfigGroup
+              {...layer.visConfigSettings.enable3d}
+              {...visConfiguratorProps}
+              collapsible
+            >
+              <ConfigGroupCollapsibleContent>
+                {/* <AggrScaleSelector {...layerConfiguratorProps} channel={layer.visualChannels.size} /> */}
+                <ChannelByValueSelector
+                  {...layerChannelConfigProps}
+                  channel={layer.visualChannels.size}
+                />
+                <VisConfigSlider
+                  {...layer.visConfigSettings.sizeRange}
+                  {...visConfiguratorProps}
+                />
+                <VisConfigSwitch
+                  {...layer.visConfigSettings.enableElevationZoomFactor}
+                  {...visConfiguratorProps}
+                />
+                {layer.visConfigSettings.sizeAggregation.condition(layer.config) ? (
+                  <AggregationTypeSelector
+                    {...layer.visConfigSettings.sizeAggregation}
+                    {...layerChannelConfigProps}
+                    channel={layer.visualChannels.size}
+                  />
+                ) : null}
+                <VisConfigSwitch {...visConfiguratorProps} {...layer.visConfigSettings.wireframe} />
+              </ConfigGroupCollapsibleContent>
+            </LayerConfigGroup>
+          ) : null}
+        </StyledLayerVisualConfigurator>
+      );
+    }
+
     _renderGeojsonLayerConfig({
       layer,
       visConfiguratorProps,
@@ -1139,7 +1246,7 @@ export const AggregationTypeSelector = ({layer, channel, onChange}) => {
   const {field, aggregation, key} = channel;
   const selectedField = layer.config[field];
   const {visConfig} = layer.config;
-
+  
   // aggregation should only be selectable when field is selected
   const aggregationOptions = layer.getAggregationOptions(key);
 

@@ -213,7 +213,7 @@ export default class GeoJsonLayer extends Layer {
   formatLayerData(datasets, oldLayerData) {
     const {gpuFilter, dataContainer} = datasets[this.config.dataId];
     const {data} = this.updateData(datasets, oldLayerData);
-
+    
     const customFilterValueAccessor = (dc, d, fieldIndex) => {
       return dc.valueAt(d.properties.index, fieldIndex);
     };
@@ -335,7 +335,6 @@ export default class GeoJsonLayer extends Layer {
               wrapLongitude: false,
               data: [hoveredObject],
               getLineWidth: data.getLineWidth,
-              getRadius: data.getRadius,
               getElevation: data.getElevation,
               getLineColor: this.config.highlightColor,
               getFillColor: this.config.highlightColor,

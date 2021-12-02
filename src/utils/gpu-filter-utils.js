@@ -188,14 +188,30 @@ const getFilterValueAccessor = (channels, dataId, fields) => dc => (
     const fieldIndex = getDatasetFieldIndexForFilter(dataId, filter);
     const field = fields[fieldIndex];
 
+    // const value =
+    //   filter.type === FILTER_TYPES.timeRange
+    //     ? field.filterProps && Array.isArray(field.filterProps.mappedValue)
+    //       ? field.filterProps.mappedValue[getIndex(d)]
+    //       : moment.utc(getData(dc, d, fieldIndex)).valueOf()
+    //     : getData(dc, d, fieldIndex);
+
+    // return notNullorUndefined(value) ? value - filter.domain[0] : Number.MIN_SAFE_INTEGER;
     const value =
       filter.type === FILTER_TYPES.timeRange
         ? field.filterProps && Array.isArray(field.filterProps.mappedValue)
-          ? field.filterProps.mappedValue[getIndex(d)]
-          : moment.utc(getData(dc, d, fieldIndex)).valueOf()
+          ? Array.isArray(getIndex(d))
+            ? getIndex(d).map(index => field.filterProps.mappedValue[index])
+            : field.filterProps.mappedValue[getIndex(d)]
+          : Array.isArray(getData(dc, d, fieldIndex))
+            ? getData(dc, d, fieldIndex).map(data => moment.utc(data).valueOf())
+            : moment.utc(getData(dc, d, fieldIndex)).valueOf()
         : getData(dc, d, fieldIndex);
 
-    return notNullorUndefined(value) ? value - filter.domain[0] : Number.MIN_SAFE_INTEGER;
+    return notNullorUndefined(value)
+      ? Array.isArray(value)
+        ? value.map(v => v - filter.domain[0])
+        : value - filter.domain[0]
+      : Number.MIN_SAFE_INTEGER;
   });
 
 /**

@@ -21,6 +21,7 @@
 import keyMirror from 'keymirror';
 
 export const LAYER_TYPES = keyMirror({
+  sk: null,
   point: null,
   arc: null,
   line: null,
@@ -33,6 +34,5 @@ export const LAYER_TYPES = keyMirror({
   hexagonId: null,
   '3D': null,
   trip: null,
-  s2: null,
-  p3: null
+  s2: null
 });

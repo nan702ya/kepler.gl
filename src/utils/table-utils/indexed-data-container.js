@@ -72,6 +72,10 @@ export class IndexedDataContainer {
   }
 
   valueAt(rowIndex, columnIndex) {
+    if (!columnIndex) {
+      return this.map(i => i.valueAt(rowIndex));
+    }
+
     return this._parentDataContainer.valueAt(this._mappedRowIndex(rowIndex), columnIndex);
   }
 

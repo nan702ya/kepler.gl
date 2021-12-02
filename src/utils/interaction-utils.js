@@ -179,7 +179,12 @@ export function getTooltipDisplayValue({item, field, data, fieldIdx}) {
     return '';
   }
 
-  return item.format
-    ? getFormatter(item.format, field)(dataValue)
-    : parseFieldValue(dataValue, field.type);
+  if (item.format) {
+    return Array.isArray(dataValue) ? dataValue.map(i => getFormatter(item.format, field)(i)).join('\t') : getFormatter(item.format, field)(dataValue);
+  } else {
+    return Array.isArray(dataValue) ? dataValue.map(i => parseFieldValue(i, field.type)).join('\t') : parseFieldValue(dataValue, field.type);
+  }
+  // return item.format
+  //   ? getFormatter(item.format, field)(dataValue)
+  //   : parseFieldValue(dataValue, field.type);
 }

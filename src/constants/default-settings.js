@@ -271,6 +271,10 @@ export const GEOJSON_FIELDS = {
   geojson: ['_geojson', 'all_points', 'geojson']
 };
 
+export const SK_FIELDS = {
+  code: ['area_cd']
+};
+
 export const ICON_FIELDS = {
   icon: ['icon']
 };
